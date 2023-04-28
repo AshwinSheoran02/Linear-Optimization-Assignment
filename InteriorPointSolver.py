@@ -5,13 +5,6 @@ eps = 1e-4
 
 def prepareA(A,b,c):
     m, n = A.shape
-    if(m != b.shape[0]):
-        print("A and b are not compatible")
-        return
-    if(n != c.shape[0]):
-        print("A and c are not compatible")
-        return
-
     rankA = np.linalg.matrix_rank(A)
     if(rankA != min(m, n)):
         _, rrefPivot = sympy.Matrix(A).T.rref()
@@ -45,8 +38,7 @@ def integralPointSolver(A, b, c):
         bnew = np.zeros(m+2*n)
         bnew[0:m] = np.copy(b-np.dot(A, primalSol))
         bnew[m:m+n] = np.copy(c-np.dot(A.T, dualSol)-slackSol)
-        bnew[m+n:m+2*n] = np.copy(muK*sigmaK*np.ones(n)-np.dot(
-            np.dot(np.diag(slackSol), np.diag(primalSol)), np.ones(n)))
+        bnew[m+n:m+2*n] = np.copy(muK*sigmaK*np.ones(n)-np.dot(np.dot(np.diag(slackSol), np.diag(primalSol)), np.ones(n)))
 
         delta = np.linalg.solve(Anew, bnew)
         ds = delta[n+m:m+2*n]
@@ -67,7 +59,7 @@ def integralPointSolver(A, b, c):
         if(xDotS < eps):
             break
 
-    return primalSol, dualSol
+    return primalSol
 
 
 def findObjectiveCost(cost, solution):
@@ -75,38 +67,11 @@ def findObjectiveCost(cost, solution):
 
 
 if __name__ == "__main__":
-    choice = int(input("Enter 1 to enter the data manually or 2 to use the default data : "))
-    if(choice == 1):
-        rowA = int(input("Enter the number of rows in A : "))
-        colA = int(input("Enter the number of columns in A : "))
-        A = np.zeros((rowA, colA))
-        print("Enter the elements of A : ")
-        for i in range(rowA):
-            for j in range(colA):
-                A[i][j] = int(input())
+    A=np.array([[4,8,6,-1,0],[3,6,12,0,-1]])
+    b=np.array([64,96])
+    c=np.array([12,8,15,0,0])
 
-        rowB = int(input("Enter the number of rows in b : "))
-        b = np.zeros(rowB)
-        print("Enter the elements of b : ")
-        for i in range(rowB):
-            b[i] = int(input())
-
-        col = int(input("Enter the number of columns in c : "))
-        c = np.zeros(col)
-        print("Enter the elements of c : ")
-        for i in range(colA):
-            c[i] = int(input())
-
-    else:
-        A=np.array([[4,8,6,-1,0],[3,6,12,0,-1]])
-        b=np.array([64,96])
-        c=np.array([12,8,15,0,0])
-
-    if(integralPointSolver(A, b, c) == None):
-        print("The problem is infeasible")
-        exit()
-
-    primalSol, dualSol = integralPointSolver(A, b, c)
+    primalSol = integralPointSolver(A, b, c)
 
     print("The solution vector is :")
     print(primalSol)
