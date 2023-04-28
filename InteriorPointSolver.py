@@ -3,7 +3,7 @@ import sympy
 
 eps = 1e-4
 
-def prepareA(A,b):
+def prepareA(A,b,c):
     m, n = A.shape
     if(m != b.shape[0]):
         print("A and b are not compatible")
@@ -21,7 +21,7 @@ def prepareA(A,b):
 
 def integralPointSolver(A, b, c):
     m, n = A.shape
-    modifiedA = prepareA(A, b)
+    modifiedA = prepareA(A, b,c)
     if(modifiedA.all() == None):
         return
     A = modifiedA
@@ -111,11 +111,5 @@ if __name__ == "__main__":
     print("The solution vector is :")
     print(primalSol)
 
-    print("The dual solution vector is :")
-    print(dualSol)
-
-    print("The primal objective value is :")
+    print("The objective value is :")
     print(findObjectiveCost(c, primalSol))
-
-    print("The dual objective value is :")
-    print(findObjectiveCost(b, dualSol))
