@@ -1,0 +1,54 @@
+reset;
+
+# i_j represents the flow in arc i -> j;
+
+var S_A >= 0, <= 11;
+var S_B >= 0, <= 15;
+var S_C >= 0, <= 10;
+var A_E >= 0, <= 18;
+var A_F >= 0, <= 4;
+var B_A >= 0, <= 3;
+var B_B >= 0, <= 8;
+var B_C >= 0, <= 5;
+var C_D >= 0, <= 6;
+var C_G >= 0, <= 3;
+var C_H >= 0, <= 11;
+var D_C >= 0, <= 4;
+var D_G >= 0, <= 17;
+var D_H >= 0, <= 6;
+var E_D >= 0, <= 3;
+var E_E >= 0, <= 16;
+var E_I >= 0, <= 13;
+var F_A >= 0, <= 12;
+var F_D >= 0, <= 4;
+var F_T >= 0, <= 21;
+var G_H >= 0, <= 4;
+var G_I >= 0, <= 9;
+var G_J >= 0, <= 4;
+var G_T >= 0, <= 3;
+var H_G >= 0, <= 4;
+var H_J >= 0, <= 5;
+var H_T >= 0, <= 4;
+var I_J >= 0, <= 7;
+var I_T >= 0, <= 9;
+var J_H >= 0, <= 2;
+var J_T >= 0, <= 15;
+
+maximize z : S_A + S_B + S_C;
+
+s.t. c1 : S_A + B_A + F_A - A_E - A_F = 0;
+s.t. c2: S_B - B_A - B_C = 0;
+s.t. c3: S_C + B_C + D_C - C_D - C_G - C_H = 0;
+s.t. c4: C_D + E_D + F_D - D_C - D_G - D_H = 0;
+s.t. c5: A_E - E_D - E_I = 0;
+s.t. c6: A_F - F_A - F_D - F_T = 0;
+s.t. c7: C_G + D_G + H_G - G_H - G_I - G_J - G_T = 0;
+s.t. c8: C_H + G_H + G_J + J_H - H_G - H_J - H_T = 0;
+s.t. c9: E_I + G_I - I_J - I_T = 0;
+s.t. c10: G_J + H_J + I_J - J_H - J_T = 0;
+
+option solver cplex;
+
+solve;
+
+display S_A, S_B, S_C, A_E, A_F, B_A, B_B, B_C, C_D, C_G, C_H, D_C, D_G, D_H, E_D, E_E, E_I, F_A, F_D, F_T, G_H, G_I, G_J, G_T, H_G, H_J, H_T, I_J, I_T, J_H, J_T, z;
