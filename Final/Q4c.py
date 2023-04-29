@@ -7,10 +7,10 @@ if __name__ == "__main__":
     b = np.loadtxt("B_Dual.txt")
     c = np.loadtxt("C_Dual.txt")
 
-    primalSol = integralPointSolver(A, b, c)
+    dualSol = integralPointSolver(A, b, c)
 
     print("The solution vector is :")
-    print(primalSol)
+    print(dualSol)
 
     print("The objective value is :")
-    print(findObjectiveCost(c, primalSol))
+    print(findObjectiveCost(c, dualSol))
