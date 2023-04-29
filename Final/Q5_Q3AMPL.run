@@ -1,0 +1,24 @@
+reset;
+# Define the variables
+
+var y1 >=0 , <=1 ;
+var y2>=0 , <=1;
+var y3>=0 , <=1;
+var y4>=0 , <=1;
+
+
+# Define the objective function
+minimize z: y1 + y2 + y3 + y4;
+
+# Define the constraints
+s.t. c1: y1 +y2 >= 1;
+s.t. c2: y2 + y4 >= 1;
+s.t. c3: y2 + y3 >= 1;
+s.t. c4: y3 + y4 >= 1;
+
+
+# Set the solver options and solve the problem
+option solver cplex;
+
+solve;
+display y1,y2 , y3 ,y4, z;
